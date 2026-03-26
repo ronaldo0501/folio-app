@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folio — AI Journal and Diary</title>
+    <meta name="description" content="Folio is a beautiful, private AI-powered journal for iOS. Write freely, think clearly, remember everything.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --amber: #C7954E;
+            --amber-light: #F0DFC0;
+            --paper: #FAF7F2;
+            --paper-dark: #F0EBE1;
+            --ink: #1A1612;
+            --subtext: #6B5E4E;
+            --card: #FFFFFF;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(250, 247, 242, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(199, 149, 78, 0.15);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Lora', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--amber); }
+
+        .nav-cta {
+            background: var(--amber) !important;
+            color: white !important;
+            padding: 10px 20px !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(199, 149, 78, 0.12) 0%, transparent 70%);
+        }
+
+        .hero-content { max-width: 720px; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--amber-light);
+            color: var(--amber);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 50px;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-family: 'Lora', serif;
+            font-size: clamp(42px, 7vw, 72px);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--ink);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--amber);
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: var(--subtext);
+            max-width: 520px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--ink);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26, 22, 18, 0.2);
+        }
+
+        .btn-primary svg { width: 20px; height: 20px; }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--subtext);
+            padding: 16px 28px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid rgba(199, 149, 78, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--amber);
+            color: var(--amber);
+        }
+
+        /* MOCKUP */
+        .mockup-section {
+            padding: 40px 24px 100px;
+            text-align: center;
+        }
+
+        .mockup-phone {
+            display: inline-block;
+            background: var(--ink);
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 0 40px 80px rgba(26, 22, 18, 0.25);
+            max-width: 280px;
+        }
+
+        .mockup-screen {
+            background: var(--paper);
+            border-radius: 40px;
+            overflow: hidden;
+            padding: 32px 20px 24px;
+        }
+
+        .mock-title {
+            font-family: 'Lora', serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .mock-entry {
+            background: white;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 10px;
+            text-align: left;
+            border: 0.5px solid rgba(199, 149, 78, 0.2);
+            display: flex;
+            gap: 10px;
+        }
+
+        .mock-bar {
+            width: 3px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .mock-entry-title {
+            font-family: 'Lora', serif;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .mock-entry-preview {
+            font-size: 11px;
+            color: var(--subtext);
+            line-height: 1.4;
+        }
+
+        /* FEATURES */
+        .features {
+            padding: 100px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Lora', serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+
+        .section-sub {
+            font-size: 17px;
+            color: var(--subtext);
+            text-align: center;
+            max-width: 560px;
+            margin: 0 auto 64px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid rgba(199, 149, 78, 0.12);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(199, 149, 78, 0.1);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--amber-light);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .feature-title {
+            font-family: 'Lora', serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--ink);
+        }
+
+        .feature-desc {
+            font-size: 15px;
+            color: var(--subtext);
+            line-height: 1.7;
+        }
+
+        /* PRICING */
+        .pricing {
+            padding: 100px 24px;
+            background: var(--paper-dark);
+        }
+
+        .pricing-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .pricing-card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 36px;
+            border: 1px solid rgba(199, 149, 78, 0.15);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--amber);
+            position: relative;
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--amber);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 50px;
+            white-space: nowrap;
+        }
+
+        .plan-name {
+            font-family: 'Lora', serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .plan-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--amber);
+            margin-bottom: 4px;
+        }
+
+        .plan-price span {
+            font-size: 16px;
+            color: var(--subtext);
+            font-weight: 400;
+        }
+
+        .plan-detail {
+            font-size: 13px;
+            color: var(--subtext);
+            margin-bottom: 28px;
+        }
+
+        .plan-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .plan-features li {
+            font-size: 14px;
+            color: var(--subtext);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plan-features li::before {
+            content: "✓";
+            color: var(--amber);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .plan-features li.locked {
+            opacity: 0.4;
+        }
+
+        .plan-features li.locked::before {
+            content: "—";
+            color: var(--subtext);
+        }
+
+        /* PRIVACY */
+        .privacy-section {
+            padding: 100px 24px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .privacy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-top: 56px;
+        }
+
+        .privacy-item {
+            text-align: center;
+        }
+
+        .privacy-icon {
+            font-size: 36px;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .privacy-item h3 {
+            font-family: 'Lora', serif;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .privacy-item p {
+            font-size: 14px;
+            color: var(--subtext);
+            line-height: 1.6;
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 100px 24px;
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 100%, rgba(199, 149, 78, 0.12) 0%, transparent 70%);
+        }
+
+        .cta-section h2 {
+            font-family: 'Lora', serif;
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 17px;
+            color: var(--subtext);
+            margin-bottom: 40px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--ink);
+            color: rgba(255,255,255,0.5);
+            padding: 40px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: gap;
+            gap: 16px;
+        }
+
+        .footer-logo {
+            font-family: 'Lora', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--amber); }
+
+        .footer-copy {
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            nav { padding: 14px 20px; }
+            .nav-links { display: none; }
+            footer { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-logo">Folio</a>
+    <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="#download" class="nav-cta">Download Free</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">✦ Now on iOS</div>
+        <h1>Your thoughts,<br><em>kept beautifully.</em></h1>
+        <p class="hero-sub">Folio is a private, AI-powered journal for iPhone. Write freely every day — Folio helps you express yourself better, find anything instantly, and keep your memories safe.</p>
+        <div class="hero-buttons">
+            <a href="https://apps.apple.com/app/folio" class="btn-primary" id="download">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                Download on App Store
+            </a>
+            <a href="#features" class="btn-secondary">See features →</a>
+        </div>
+    </div>
+</section>
+
+<!-- MOCKUP -->
+<section class="mockup-section">
+    <div class="mockup-phone">
+        <div class="mockup-screen">
+            <div class="mock-title">Folio</div>
+            <div class="mock-entry">
+                <div class="mock-bar" style="background: #4FC3F7;"></div>
+                <div>
+                    <div class="mock-entry-title">A perfect morning</div>
+                    <div class="mock-entry-preview">Coffee, quiet streets, and nowhere to be. Today felt like mine.</div>
+                </div>
+            </div>
+            <div class="mock-entry">
+                <div class="mock-bar" style="background: #C7954E;"></div>
+                <div>
+                    <div class="mock-entry-title">Big decision made</div>
+                    <div class="mock-entry-preview">I finally said yes. It felt terrifying and right at the same time.</div>
+                </div>
+            </div>
+            <div class="mock-entry">
+                <div class="mock-bar" style="background: #81C784;"></div>
+                <div>
+                    <div class="mock-entry-title">Weekend at the lake</div>
+                    <div class="mock-entry-preview">No signal, no plans, just the water and good company.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+    <div class="section-label">What Folio does</div>
+    <h2 class="section-title">Everything a great journal needs.</h2>
+    <p class="section-sub">Built around how people actually write — simple to start, powerful when you need it.</p>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">✦</div>
+            <div class="feature-title">AI Writing Assistant</div>
+            <p class="feature-desc">Tap once to polish your writing, fix grammar, or expand your thoughts. Your original is always preserved — you decide what to keep.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <div class="feature-title">Search Everything</div>
+            <p class="feature-desc">Find any entry by words, tags, or what's in your photos. Our AI describes every photo you attach so you can search for "waterfall" and find it instantly.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📷</div>
+            <div class="feature-title">Photo Journals</div>
+            <p class="feature-desc">Attach photos to your entries. Folio automatically understands what's in each photo so you can find memories by what you saw, not just what you wrote.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <div class="feature-title">Private by Design</div>
+            <p class="feature-desc">Locked with Face ID or Touch ID. Backed up to your private iCloud. No ads. No analytics. No one reads your journal but you.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">😊</div>
+            <div class="feature-title">Mood Tracking</div>
+            <p class="feature-desc">Log how you're feeling with each entry. Filter and search by mood to spot patterns in your emotional life over time.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📤</div>
+            <div class="feature-title">Export Anytime</div>
+            <p class="feature-desc">Your data is always yours. Export your entire journal as PDF, JSON, or Markdown whenever you want. No lock-in, ever.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+    <div class="pricing-inner">
+        <div class="section-label">Simple pricing</div>
+        <h2 class="section-title">Free to start. Premium when you're ready.</h2>
+        <p class="section-sub">Start journaling for free today. Upgrade when the AI makes you want more.</p>
+
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <div class="plan-name">Free</div>
+                <div class="plan-price">$0 <span>forever</span></div>
+                <div class="plan-detail">Everything you need to get started</div>
+                <ul class="plan-features">
+                    <li>Unlimited journal entries</li>
+                    <li>Mood tracking & tags</li>
+                    <li>Full-text search</li>
+                    <li>Face ID lock</li>
+                    <li>Daily reminders</li>
+                    <li>3 AI improvements / month</li>
+                    <li>5 photo attachments</li>
+                    <li class="locked">PDF & Markdown export</li>
+                    <li class="locked">Unlimited AI & photos</li>
+                </ul>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="pricing-badge">Most Popular</div>
+                <div class="plan-name">Premium</div>
+                <div class="plan-price">$2.99 <span>/ month</span></div>
+                <div class="plan-detail">Or $24.99/year — save 30%</div>
+                <ul class="plan-features">
+                    <li>Everything in Free</li>
+                    <li>Unlimited AI improvements</li>
+                    <li>Unlimited photo attachments</li>
+                    <li>Visual photo search</li>
+                    <li>PDF export per entry</li>
+                    <li>JSON & Markdown export</li>
+                    <li>Priority CloudKit sync</li>
+                    <li>All future premium features</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="privacy-section" id="privacy">
+    <div class="section-label">Your privacy matters</div>
+    <h2 class="section-title">Built for trust.</h2>
+    <p class="section-sub">A journal is one of the most personal things you can keep. We treat it that way.</p>
+
+    <div class="privacy-grid">
+        <div class="privacy-item">
+            <span class="privacy-icon">🔒</span>
+            <h3>Local First</h3>
+            <p>Your entries live on your device first. CloudKit backup goes to your personal iCloud — not our servers.</p>
+        </div>
+        <div class="privacy-item">
+            <span class="privacy-icon">🚫</span>
+            <h3>No Ads. Ever.</h3>
+            <p>Folio will never show ads or sell your data. We make money from Premium subscriptions only.</p>
+        </div>
+        <div class="privacy-item">
+            <span class="privacy-icon">👁️</span>
+            <h3>We Can't Read It</h3>
+            <p>Your journal is stored in your private iCloud container. Technically impossible for us to access.</p>
+        </div>
+        <div class="privacy-item">
+            <span class="privacy-icon">📦</span>
+            <h3>Always Exportable</h3>
+            <p>Export everything anytime. Your memories don't belong to an app — they belong to you.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Start writing today.</h2>
+    <p>Free to download. No account required. Just open and write.</p>
+    <a href="https://apps.apple.com/app/folio" class="btn-primary" style="display: inline-flex; font-size: 16px; padding: 18px 36px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download Free on App Store
+    </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <span class="footer-logo">Folio</span>
+    <ul class="footer-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Brandon Wright</span>
+</footer>
+
+</body>
+</html>

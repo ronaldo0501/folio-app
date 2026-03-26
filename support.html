@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support — Folio: AI Journal and Diary</title>
+    <meta name="description" content="Get help with Folio — the private AI-powered journal for iOS.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --amber: #C7954E;
+            --amber-light: #F0DFC0;
+            --paper: #FAF7F2;
+            --paper-dark: #F0EBE1;
+            --ink: #1A1612;
+            --subtext: #6B5E4E;
+            --card: #FFFFFF;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(250, 247, 242, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(199, 149, 78, 0.15);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Lora', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-back {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--subtext);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover { color: var(--amber); }
+
+        /* HERO */
+        .support-hero {
+            padding: 140px 24px 60px;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--amber-light);
+            color: var(--amber);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 50px;
+            margin-bottom: 24px;
+        }
+
+        .support-hero h1 {
+            font-family: 'Lora', serif;
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .support-hero p {
+            font-size: 17px;
+            color: var(--subtext);
+            max-width: 500px;
+            margin: 0 auto 40px;
+        }
+
+        /* CONTACT CARD */
+        .contact-card {
+            background: var(--ink);
+            color: white;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto 80px;
+            text-align: center;
+        }
+
+        .contact-card h2 {
+            font-family: 'Lora', serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .contact-card p {
+            color: rgba(255,255,255,0.65);
+            font-size: 15px;
+            margin-bottom: 28px;
+        }
+
+        .contact-email {
+            display: inline-block;
+            background: var(--amber);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .contact-email:hover { opacity: 0.9; }
+
+        .response-time {
+            margin-top: 16px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* FAQ */
+        .faq-section {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px 100px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 12px;
+        }
+
+        .faq-section h2 {
+            font-family: 'Lora', serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--ink);
+        }
+
+        .faq-category {
+            margin-bottom: 48px;
+        }
+
+        .faq-category h3 {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(199, 149, 78, 0.2);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(199, 149, 78, 0.1);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            text-align: left;
+        }
+
+        .faq-question span {
+            font-family: 'Lora', serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .faq-chevron {
+            width: 20px;
+            height: 20px;
+            color: var(--amber);
+            flex-shrink: 0;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.open .faq-chevron {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 400px;
+        }
+
+        .faq-answer p, .faq-answer li {
+            font-size: 15px;
+            color: var(--subtext);
+            line-height: 1.75;
+            padding-bottom: 20px;
+        }
+
+        .faq-answer ol, .faq-answer ul {
+            padding-left: 20px;
+        }
+
+        .faq-answer li {
+            padding-bottom: 6px;
+        }
+
+        /* VERSION */
+        .version-section {
+            background: var(--paper-dark);
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .version-section h2 {
+            font-family: 'Lora', serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .version-section p {
+            font-size: 15px;
+            color: var(--subtext);
+            margin-bottom: 6px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--ink);
+            color: rgba(255,255,255,0.5);
+            padding: 40px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-logo {
+            font-family: 'Lora', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--amber); }
+
+        @media (max-width: 600px) {
+            nav { padding: 14px 20px; }
+            footer { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="index.html" class="nav-logo">Folio</a>
+    <a href="index.html" class="nav-back">← Back to home</a>
+</nav>
+
+<!-- HERO -->
+<div class="support-hero">
+    <div class="hero-badge">Support Center</div>
+    <h1>How can we help?</h1>
+    <p>Find answers to common questions below, or reach out and we'll get back to you quickly.</p>
+</div>
+
+<!-- CONTACT -->
+<div style="padding: 0 24px;">
+    <div class="contact-card">
+        <h2>Contact Support</h2>
+        <p>Can't find what you're looking for? Send us an email and we'll respond within 24 hours.</p>
+        <a href="mailto:support@yourwebsite.com" class="contact-email">support@yourwebsite.com</a>
+        <p class="response-time">⏱ Typical response time: within 24 hours</p>
+    </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+    <div class="section-label">Frequently Asked Questions</div>
+    <h2>Quick answers</h2>
+
+    <!-- Getting Started -->
+    <div class="faq-category">
+        <h3>Getting Started</h3>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Do I need to create an account?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>No account is needed. Folio works completely offline from the moment you download it. Your entries are stored privately on your device. If you use iCloud, your journal automatically syncs across your Apple devices using your existing Apple ID — no separate account required.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>How do I write my first entry?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Tap the amber <strong>+ New Entry</strong> button at the bottom right of the main screen. Add a title (optional), write your entry, choose your mood, and tap <strong>Save</strong>. That's it!</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>What is the AI writing assistant?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>When writing or editing an entry, tap the <strong>Improve with AI</strong> button at the bottom of the screen. The AI will suggest improvements to your writing — fixing grammar, improving clarity, or expanding your thoughts.</p>
+                <p>Your original is always preserved. You'll see both versions side by side and can choose to accept or reject the AI's suggestions. The AI never overwrites your original without your permission.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy & Security -->
+    <div class="faq-category">
+        <h3>Privacy & Security</h3>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Where is my data stored?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Your journal entries are stored locally on your device using Apple's SwiftData framework. If you have iCloud enabled, they are also backed up to your personal iCloud private database — which only you can access. We have no access to your data.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Can Folio read my journal entries?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>No. Your entries are stored in your personal iCloud private container, which is technically inaccessible to us. We have no servers that store your journal content. The only time your text leaves your device is when you use the AI writing feature, which sends your text directly to Anthropic's API — it is not stored or logged by us.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>How do I set up Face ID lock?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Go to the <strong>Settings</strong> tab in Folio, then find the <strong>Privacy & Security</strong> section. Toggle on <strong>Face ID Lock</strong> (or Touch ID on older devices). Folio will lock automatically whenever you leave the app.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription & Billing -->
+    <div class="faq-category">
+        <h3>Subscription & Billing</h3>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>What's included in the free version?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>The free version includes: unlimited journal entries, mood tracking, tags, full-text search, Face ID lock, daily reminders, 3 AI writing improvements per month, and up to 5 photo attachments.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>What does Premium include?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Folio Premium ($2.99/month or $24.99/year) includes everything in the free version plus: unlimited AI writing improvements, unlimited photo attachments, visual photo search powered by AI, PDF export for individual entries, and full JSON and Markdown export of your entire journal.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>How do I cancel my subscription?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Subscriptions are managed through Apple. To cancel:</p>
+                <ol>
+                    <li>Open the <strong>Settings</strong> app on your iPhone</li>
+                    <li>Tap your name at the top</li>
+                    <li>Tap <strong>Subscriptions</strong></li>
+                    <li>Find <strong>Folio</strong> and tap <strong>Cancel Subscription</strong></li>
+                </ol>
+                <p>Your Premium access will continue until the end of the current billing period.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>How do I restore my purchase on a new device?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Download Folio on your new device and sign in with the same Apple ID you used to purchase Premium. Your subscription will be automatically detected. If it doesn't restore automatically, go to Settings in Folio and tap <strong>Restore Purchases</strong>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data & Export -->
+    <div class="faq-category">
+        <h3>Data & Export</h3>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>How do I export my journal?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Go to <strong>Settings → Export</strong>. Premium users can export their entire journal as JSON or Markdown. To export a single entry as PDF, open the entry, tap the <strong>...</strong> menu in the top right, and tap <strong>Export as PDF</strong>.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>What happens to my data if I delete the app?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>If you delete the app, local data on your device will be removed. However, if you have iCloud enabled, your entries are preserved in your iCloud account and will restore automatically when you reinstall Folio and sign in with the same Apple ID.</p>
+                <p>We recommend exporting your journal as a backup before deleting the app just to be safe.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>How does photo search work?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>When you attach a photo to a journal entry, Folio uses AI to automatically generate a text description of what's in the photo. This description is saved privately with your entry. When you search, Folio searches these descriptions — so searching "beach" or "sunset" will find entries with matching photos even if you never wrote those words.</p>
+                <p>This feature requires an active internet connection when first attaching the photo. The description is generated once and stored locally — no ongoing connection required for searching.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Troubleshooting -->
+    <div class="faq-category">
+        <h3>Troubleshooting</h3>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>The AI feature isn't working. What do I do?</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>AI features require an active internet connection. Please check that you're connected to Wi-Fi or cellular data. If the problem persists, try force-closing Folio and reopening it. If you're on the free plan, check that you haven't used your 3 monthly AI improvements — usage resets on the first of each month.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>My entries aren't syncing across devices.</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Make sure both devices are signed into the same Apple ID and that iCloud is enabled. You can check this in your iPhone's <strong>Settings → Your Name → iCloud</strong>. Sync may take a few minutes after making changes. If sync still isn't working, try toggling iCloud off and back on in your device settings.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>I forgot my Face ID and can't get in. Help!</span>
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-answer">
+                <p>Folio uses your device's built-in Face ID or Touch ID — the same one you use to unlock your iPhone. If Face ID fails several times, iOS will offer a passcode fallback. Enter your iPhone's passcode to unlock Folio. If you've forgotten your iPhone passcode, you'll need to restore your device through Apple — this is an Apple security feature we cannot override.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- VERSION INFO -->
+<div class="version-section">
+    <h2>Folio: AI Journal and Diary</h2>
+    <p>Current Version: 1.0</p>
+    <p>Requires iOS 17.0 or later</p>
+    <p style="margin-top: 16px; font-size: 14px;">Still need help? <a href="mailto:support@yourwebsite.com" style="color: var(--amber);">Email us</a></p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <span class="footer-logo">Folio</span>
+    <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+    </ul>
+    <span style="font-size: 13px;">© 2026 Brandon Wright</span>
+</footer>
+
+<script>
+    function toggleFAQ(button) {
+        const item = button.parentElement;
+        const isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+        // Open clicked if it wasn't open
+        if (!isOpen) item.classList.add('open');
+    }
+</script>
+
+</body>
+</html>
